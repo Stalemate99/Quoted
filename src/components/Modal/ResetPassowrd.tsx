@@ -1,12 +1,43 @@
-import React, { FormEvent } from "react";
+import { auth } from "@/firebase/config";
+import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
+import React, { FormEvent, useState } from "react";
+import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 
 type ResetPassowrdProps = {};
 
 const ResetPassowrd: React.FC<ResetPassowrdProps> = () => {
-  const handleReset = (event: FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState("");
+  const [sendPasswordResetEmail, sending, error] =
+    useSendPasswordResetEmail(auth);
+
+  const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleReset = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log("Reset Password");
+    // Checks for basic email validation
+    const emailCheck =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (!email.match(emailCheck)) {
+      toast.warn("Please enter correct email address.", DEFAULT_TOAST_CONFIG);
+      setEmail("");
+
+      return;
+    }
+
+    try {
+      const isEmailSent = await sendPasswordResetEmail(email);
+
+      if (isEmailSent) {
+        toast.success("Reset email has been sent.", DEFAULT_TOAST_CONFIG);
+      }
+    } catch (error: any) {
+      toast.error(error.message, DEFAULT_TOAST_CONFIG);
+    }
   };
 
   return (
@@ -24,6 +55,7 @@ const ResetPassowrd: React.FC<ResetPassowrdProps> = () => {
           Enter your registered email
         </label>
         <input
+          onChange={handleEmailInput}
           type="email"
           id="email"
           name="email"
