@@ -21,6 +21,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(user, loading, "Test");
     if (user) router.push("/");
     if (!user || !loading) setPageLoading(false);
   }, [user, router, loading]);

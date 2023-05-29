@@ -1,15 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/router";
 
 import AuthModal from "@/components/Modal/AuthModal";
 import Navbar from "@/components/Navbar/Navbar";
 import { authModalState } from "@/atoms/authModalAtom";
+import { auth } from "@/firebase/config";
 
 type AuthPageProps = {};
 
 const AuthPage: React.FC<AuthPageProps> = () => {
   const authModal = useRecoilValue(authModalState);
+  const [user, loading] = useAuthState(auth);
+  const [isPageLoading, setPageLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(user, loading, "Test");
+    if (user) router.push("/");
+    if (!user || !loading) setPageLoading(false);
+  }, [user, router, loading]);
+
+  // TODO Add loader to ensure white screen is not visible
+  if (isPageLoading) return null;
 
   return (
     <div className="relative flexbg-gradient-to-b from-yellow-900 to-yellow-100 h-screen w-full bg-amber-100">
