@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IoClose } from "react-icons/io5";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useRouter } from "next/router";
 
 import { authModalState } from "@/atoms/authModalAtom";
-import { auth } from "@/firebase/config";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import ResetPassowrd from "./ResetPassowrd";

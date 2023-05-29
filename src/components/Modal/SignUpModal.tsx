@@ -1,11 +1,14 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 import { authModalState } from "@/atoms/authModalAtom";
 import { auth } from "@/firebase/config";
-import { useRouter } from "next/router";
 import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
 
 import { SIGN_UP_INITIAL_FORM_DATA } from "./constants";
@@ -17,6 +20,7 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
   const [formData, setFormData] = useState(SIGN_UP_INITIAL_FORM_DATA);
   const [createUserWithEmailAndPassword, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating] = useUpdateProfile(auth);
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -71,7 +75,15 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
         formData.email,
         formData.password
       );
+
       if (!newUser) return;
+      // Updating the user name after successful creation of account
+      const isDisplayUpdated = await updateProfile({
+        displayName: formData.displayName,
+      });
+      if (!isDisplayUpdated)
+        toast.error("Unable to update display name.", DEFAULT_TOAST_CONFIG);
+
       router.push("/");
     } catch (error: any) {
       toast.error(error?.message, DEFAULT_TOAST_CONFIG);
