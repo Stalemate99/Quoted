@@ -16,18 +16,6 @@ const AuthModal: React.FC<AuthModalProps> = () => {
   const authModal = useRecoilValue(authModalState);
   const setAuthModal = useSetRecoilState(authModalState);
   const handleModalClose = useCloseModal();
-  const [user, loading] = useAuthState(auth);
-  const [isPageLoading, setPageLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    console.log(user, loading, "Test");
-    if (user) router.push("/");
-    if (!user || !loading) setPageLoading(false);
-  }, [user, router, loading]);
-
-  // TODO Add loader to ensure white screen is not visible
-  if (isPageLoading) return null;
 
   return (
     <>
