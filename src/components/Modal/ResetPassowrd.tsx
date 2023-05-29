@@ -8,8 +8,7 @@ type ResetPassowrdProps = {};
 
 const ResetPassowrd: React.FC<ResetPassowrdProps> = () => {
   const [email, setEmail] = useState("");
-  const [sendPasswordResetEmail, sending, error] =
-    useSendPasswordResetEmail(auth);
+  const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);

@@ -18,7 +18,6 @@ const AuthPage: React.FC<AuthPageProps> = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(user, loading, "Test");
     if (user) router.push("/");
     if (!user || !loading) setPageLoading(false);
   }, [user, router, loading]);
@@ -27,7 +26,7 @@ const AuthPage: React.FC<AuthPageProps> = () => {
   if (isPageLoading) return null;
 
   return (
-    <div className="relative flexbg-gradient-to-b from-yellow-900 to-yellow-100 h-screen w-full bg-amber-100">
+    <div className="relative to-yellow-100 h-screen w-full bg-amber-100">
       <Navbar />
       <div className="flex w-full h-[40%] justify-center mt-32">
         <div
