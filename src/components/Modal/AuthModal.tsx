@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { IoClose } from "react-icons/io5";
 
@@ -11,7 +11,6 @@ type AuthModalProps = {};
 
 const AuthModal: React.FC<AuthModalProps> = () => {
   const authModal = useRecoilValue(authModalState);
-  const setAuthModal = useSetRecoilState(authModalState);
   const handleModalClose = useCloseModal();
 
   return (
