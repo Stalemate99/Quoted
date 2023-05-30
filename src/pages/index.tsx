@@ -31,7 +31,7 @@ const Home: React.FC<HomeProps> = () => {
     return (
       <>
         <GlobalQuote />
-        <span className="absolute p-2 bottom-8 right-4">
+        <span className="absolute p-2 top-[85svh] right-2">
           <button
             type="button"
             onClick={() =>
@@ -52,7 +52,7 @@ const Home: React.FC<HomeProps> = () => {
   };
 
   return (
-    <main className="relative flexbg-gradient-to-b from-yellow-900 to-yellow-100 h-screen w-full bg-amber-100">
+    <main className="relative flexbg-gradient-to-b from-yellow-900 to-yellow-100 h-[100svh] w-full bg-amber-100">
       <Navbar />
       {isSignedIn ? renderContent() : null}
     </main>
