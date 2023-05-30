@@ -6,12 +6,6 @@ import {
 } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
-import Navbar from "@/components/Navbar/Navbar";
-import { auth, firestore, storage } from "@/firebase/config";
-
-import { INITIAL_PROFILE_STATE } from "./constants";
-import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
 import {
   collection,
   doc,
@@ -20,6 +14,12 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
+
+import Navbar from "@/components/Navbar/Navbar";
+import { auth, firestore, storage } from "@/firebase/config";
+import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
+
+import { INITIAL_PROFILE_STATE } from "@/constants/profile_constants";
 
 type ProfileProps = {};
 type UpdatedData = { name?: string; pic?: any };
