@@ -68,7 +68,7 @@ const Profile: React.FC<ProfileProps> = () => {
           alt="Default Profile Picture"
           width={60}
           height={60}
-          className="rounded-full border-amber-900 border-2 min-w-[2.5rem] sm:w-14 "
+          className="rounded-full border-amber-900 border-2 min-w-[2.5rem] max-h-[2.5rem] sm:w-14 sm:h-14"
         />
         <div
           className={isActive ? BASE_STYLES : HIDDEN_STYLES}

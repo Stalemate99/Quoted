@@ -85,7 +85,7 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
           <img
             src={authorPic}
             alt={authorName}
-            className="rounded-full w-12 h-12"
+            className="rounded-full w-8 h-8 sm:w-12 sm:h-12"
           />
         ) : (
           <FaUserCircle className="w-12 h-12" />
