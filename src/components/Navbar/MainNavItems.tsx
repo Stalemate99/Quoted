@@ -11,6 +11,9 @@ const MainNavItems: React.FC<MainNavItemsProps> = () => {
     <div className="flex items-center gap-6 px-4 md:px-8">
       {/* TODO Implement search feature for quotes */}
       {/* <Search /> */}
+      <Link href="/" className="text-amber-900 font-medium hover:underline">
+        Home
+      </Link>
       <Link
         href="/leaderboard"
         className="text-amber-900 font-medium hover:underline"

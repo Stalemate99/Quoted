@@ -4,16 +4,25 @@ import {
   useUpdatePassword,
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
-
-import Navbar from "@/components/Navbar/Navbar";
-import { auth, storage } from "@/firebase/config";
-
-import { INITIAL_PROFILE_STATE } from "./constants";
 import { toast } from "react-toastify";
-import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
+import Navbar from "@/components/Navbar/Navbar";
+import { auth, firestore, storage } from "@/firebase/config";
+
+import { INITIAL_PROFILE_STATE } from "./constants";
+import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
+
 type ProfileProps = {};
+type UpdatedData = { name?: string; pic?: any };
 
 const Profile: React.FC<ProfileProps> = () => {
   const [user] = useAuthState(auth);
@@ -53,13 +62,18 @@ const Profile: React.FC<ProfileProps> = () => {
     const nameCheck = /^[A-Za-z0-9_]+$/;
 
     try {
-      if (formData.name) {
+      const updatedData: UpdatedData = {};
+      const curAuthorName = user?.displayName;
+
+      if (formData.name && formData.name !== user?.displayName) {
         if (formData.name.match(nameCheck)) {
           const isUpdateSuccess = await updateProfile({
             displayName: formData.name,
           });
-          if (isUpdateSuccess)
+          if (isUpdateSuccess) {
+            updatedData["name"] = formData.name;
             toast.success("Updated author name.", DEFAULT_TOAST_CONFIG);
+          }
         } else {
           toast.warn(
             "Please enter one word. Only '_' is allowed.",
@@ -68,7 +82,7 @@ const Profile: React.FC<ProfileProps> = () => {
         }
       }
 
-      if (formData.curPassword)
+      if (formData.curPassword) {
         if (formData.newPassword.match(passwordCheck)) {
           const isUpdateSuccess = await updatePassword(formData.newPassword);
           if (isUpdateSuccess)
@@ -79,6 +93,7 @@ const Profile: React.FC<ProfileProps> = () => {
             DEFAULT_TOAST_CONFIG
           );
         }
+      }
 
       if (formData.pic) {
         const photoRef = ref(storage, user?.displayName + "_profile_pic");
@@ -91,8 +106,30 @@ const Profile: React.FC<ProfileProps> = () => {
           photoURL: url,
         });
 
-        if (isUpdateSuccess)
+        if (isUpdateSuccess) {
+          updatedData["pic"] = url;
           toast.success("Updated profile picture.", DEFAULT_TOAST_CONFIG);
+        }
+      }
+
+      if (!!updatedData.name || !!updatedData.pic) {
+        const quotesQuery = query(
+          collection(firestore, "quotes"),
+          where("author_name", "==", curAuthorName)
+        );
+        const quoteSnap = await getDocs(quotesQuery);
+        const batchRef = writeBatch(firestore);
+
+        quoteSnap.forEach((queryDoc) => {
+          const queryRef = doc(firestore, "quotes", queryDoc.id);
+
+          batchRef.update(queryRef, {
+            author_name: updatedData?.name || user?.displayName,
+            author_pic: updatedData?.pic || user?.photoURL,
+          });
+        });
+
+        await batchRef.commit();
       }
     } catch (error) {
       toast.warn(
