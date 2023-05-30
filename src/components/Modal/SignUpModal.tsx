@@ -111,6 +111,7 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
           id="email"
           type="email"
           name="email"
+          value={formData.email}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           placeholder="email@org.domain"
           required
@@ -126,6 +127,7 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
           id="name"
           type="text"
           name="displayName"
+          value={formData.displayName}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           placeholder="Your name"
           required
@@ -141,6 +143,7 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
           id="password"
           type="password"
           name="password"
+          value={formData.password}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           placeholder="********"
           required

@@ -84,6 +84,7 @@ const SignInModal: React.FC<SignInModalProps> = () => {
           id="email"
           type="email"
           name="email"
+          value={formData.email}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           placeholder="email@org.domain"
           required
@@ -99,6 +100,7 @@ const SignInModal: React.FC<SignInModalProps> = () => {
           id="password"
           type="password"
           name="password"
+          value={formData.password}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           placeholder="********"
           required

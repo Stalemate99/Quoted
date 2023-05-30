@@ -59,6 +59,7 @@ const ResetPassowrd: React.FC<ResetPassowrdProps> = () => {
           id="email"
           name="email"
           placeholder="name@domain.org"
+          value={email}
           className="flex items-center w-full h-10 text-black outline-none rounded px-2 py-1 focus:border-black focus:border-2"
           required
         />
