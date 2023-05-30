@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import Search from "../Search/Search";
+// import Search from "../Search/Search";
 import Profile from "../Profile/Profile";
 
 type MainNavItemsProps = {};
