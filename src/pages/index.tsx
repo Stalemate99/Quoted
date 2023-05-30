@@ -20,15 +20,17 @@ const Home: React.FC<HomeProps> = () => {
     <main className="relative flexbg-gradient-to-b from-yellow-900 to-yellow-100 h-screen w-full bg-amber-100">
       <Navbar />
       <GlobalQuote />
-      <button
-        type="button"
-        onClick={() =>
-          setQuoteModal((prev) => ({ ...prev, isOpen: true, type: "add" }))
-        }
-        className="flex items-center justify-center rounded-[50%] w-12 h-12 bg-amber-900 text-white"
-      >
-        <AiFillPlusCircle className="w-10 h-10" />
-      </button>
+      <span className="absolute p-2 bottom-0 right-0">
+        <button
+          type="button"
+          onClick={() =>
+            setQuoteModal((prev) => ({ ...prev, isOpen: true, type: "add" }))
+          }
+          className="flex items-center justify-center rounded-[50%] w-12 h-12 bg-amber-900 text-white"
+        >
+          <AiFillPlusCircle className="w-10 h-10" />
+        </button>
+      </span>
       {quoteModal.isOpen ? <QuoteModal /> : null}
     </main>
   );
