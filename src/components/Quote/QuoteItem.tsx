@@ -2,7 +2,10 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useSetRecoilState } from "recoil";
+import { quoteModalState } from "@/atoms/quoteModalAtom";
 
 import { firestore } from "@/firebase/config";
 
@@ -15,6 +18,7 @@ type QuoteItemProps = {
     seconds: number;
   };
   id: string;
+  type?: "edit";
 };
 
 const QuoteItem: React.FC<QuoteItemProps> = ({
@@ -24,7 +28,9 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
   timestamp,
   author_name: authorName,
   author_pic: authorPic,
+  type,
 }) => {
+  const setQuoteModal = useSetRecoilState(quoteModalState);
   const renderTime = () => {
     const time = new Date(1970, 0, 1);
     time.setSeconds(timestamp.seconds);
@@ -45,6 +51,23 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const renderEditButton = () => {
+    const handleEditModal = () => {
+      setQuoteModal((prevVal) => ({
+        ...prevVal,
+        isOpen: true,
+        type: "edit",
+        data: { quote, id },
+      }));
+    };
+
+    return (
+      <button type="button" onClick={handleEditModal} className="">
+        <BiEdit className="w-6 h-6" />
+      </button>
+    );
   };
 
   return (
@@ -73,9 +96,12 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
         </span>
       </div>
       <div className="flex flex-col gap-2 w-full p-1">
-        <p className="w-fit italic font-semibold text-lg text-amber-900">
-          {quote}
-        </p>
+        <span className="flex">
+          <p className="w-fit italic font-semibold text-lg text-amber-900 grow">
+            {quote}
+          </p>
+          {type === "edit" ? renderEditButton() : null}
+        </span>
         <span className="flex gap-1 items-start">
           <p className="font-medium text-amber-800">{authorName}</p>
           <span className="w-full flex justify-end">
