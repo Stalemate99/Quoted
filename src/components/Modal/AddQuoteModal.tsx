@@ -21,7 +21,8 @@ const AddQuoteModal: React.FC<AddQuoteModalProps> = () => {
     try {
       const quoteRef = await addDoc(collection(firestore, "quotes"), {
         quote,
-        author_id: user?.uid,
+        author_name: user?.displayName,
+        author_pic: user?.photoURL,
         likes: 0,
         timestamp: Timestamp.now(),
       });
