@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 
 import { quoteModalState } from "@/atoms/quoteModalAtom";
 import Navbar from "@/components/Navbar/Navbar";
@@ -16,11 +17,15 @@ const Home: React.FC<HomeProps> = () => {
   const quoteModal = useRecoilValue(quoteModalState);
   const setQuoteModal = useSetRecoilState(quoteModalState);
   const [user] = useAuthState(auth);
+  const router = useRouter();
 
   useEffect(() => {
     if (user) setSignedIn(true);
-    else setSignedIn(false);
-  }, [user]);
+    else {
+      setSignedIn(false);
+      router.push("/auth");
+    }
+  }, [user, router]);
 
   const renderContent = () => {
     return (
