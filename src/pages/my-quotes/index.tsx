@@ -21,7 +21,9 @@ type QuoteProps = {
   author_pic: string;
   likes: number;
   quote: string;
-  timestamp: Date;
+  timestamp: {
+    seconds: number;
+  };
   id: string;
   type?: "edit";
 };
@@ -36,7 +38,6 @@ const PersonalQuotes: React.FC<PersonalQuotesProps> = () => {
       return;
     }
 
-    console.log(user.displayName);
     const quotesQuery = query(
       collection(firestore, "quotes"),
       where("author_name", "==", user?.displayName),
