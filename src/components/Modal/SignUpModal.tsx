@@ -18,9 +18,9 @@ type SignUpModalProps = {};
 const SignUpModal: React.FC<SignUpModalProps> = () => {
   const setAuthState = useSetRecoilState(authModalState);
   const [formData, setFormData] = useState(SIGN_UP_INITIAL_FORM_DATA);
-  const [createUserWithEmailAndPassword, loading, error] =
+  const [createUserWithEmailAndPassword, loading] =
     useCreateUserWithEmailAndPassword(auth);
-  const [updateProfile, updating] = useUpdateProfile(auth);
+  const [updateProfile] = useUpdateProfile(auth);
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -89,11 +89,6 @@ const SignUpModal: React.FC<SignUpModalProps> = () => {
       toast.error(error?.message, DEFAULT_TOAST_CONFIG);
     }
   };
-
-  useEffect(() => {
-    if (error)
-      toast.warn("User already exists! Try signing in.", DEFAULT_TOAST_CONFIG);
-  }, [error]);
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevVal) => ({

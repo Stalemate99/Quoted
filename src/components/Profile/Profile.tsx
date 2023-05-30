@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
@@ -63,8 +63,8 @@ const Profile: React.FC<ProfileProps> = () => {
         className="relative flex rounded-full items-center cursor-pointer"
         onClick={() => setActive(!isActive)}
       >
-        <img
-          src={!!user?.photoURL ? user.photoURL : "./profile_pic.png"}
+        <Image
+          src={!!user?.photoURL ? user.photoURL : "/profile_pic.png"}
           alt="Default Profile Picture"
           width={60}
           height={60}
