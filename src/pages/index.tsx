@@ -31,7 +31,7 @@ const Home: React.FC<HomeProps> = () => {
     return (
       <>
         <GlobalQuote />
-        <span className="absolute p-2 bottom-0 right-0">
+        <span className="absolute p-2 bottom-8 right-4">
           <button
             type="button"
             onClick={() =>

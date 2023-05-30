@@ -16,6 +16,10 @@ html {
   --thumbBG: #974c06;
 }
 
+body {
+  height: 100svh;
+}
+
 *::-webkit-scrollbar {
   width: 11px;
 }
