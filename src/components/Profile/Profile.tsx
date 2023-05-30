@@ -18,7 +18,7 @@ const Profile: React.FC<ProfileProps> = () => {
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter();
-  const profileNavItemRef = useRef(null);
+  const profileNavItemRef = useRef<HTMLDivElement>(null);
 
   const BASE_STYLES =
     "absolute flex top-[120%] right-0 w-32 rounded-lg p-2 bg-amber-800";

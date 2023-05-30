@@ -10,12 +10,15 @@ type QuoteProps = {
   author_pic: string;
   likes: number;
   quote: string;
-  timestamp: Date;
+  timestamp: {
+    seconds: number;
+  };
   id: string;
+  type?: "edit";
 };
 
 const GlobalQuote: React.FC<GlobalQuoteProps> = () => {
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState<QuoteProps[]>([]);
   const quotesQuery = query(
     collection(firestore, "quotes"),
     orderBy("timestamp", "desc")
@@ -23,10 +26,19 @@ const GlobalQuote: React.FC<GlobalQuoteProps> = () => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(quotesQuery, (querySnapshot) => {
-      const quoteData = [];
+      const quoteData: QuoteProps[] = [];
 
       querySnapshot.forEach((quoteDoc) => {
-        quoteData.push({ ...quoteDoc.data(), id: quoteDoc.id });
+        const { author_name, author_pic, quote, likes, timestamp } =
+          quoteDoc.data();
+        quoteData.push({
+          author_name,
+          author_pic,
+          quote,
+          timestamp,
+          likes,
+          id: quoteDoc.id,
+        });
       });
 
       setQuotes(quoteData);

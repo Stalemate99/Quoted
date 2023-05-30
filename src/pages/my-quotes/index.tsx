@@ -29,7 +29,7 @@ type QuoteProps = {
 };
 
 const PersonalQuotes: React.FC<PersonalQuotesProps> = () => {
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState<QuoteProps[]>([]);
   const [user] = useAuthState(auth);
   const quoteModal = useRecoilValue(quoteModalState);
 
@@ -45,10 +45,19 @@ const PersonalQuotes: React.FC<PersonalQuotesProps> = () => {
     );
 
     const unsubscribe = onSnapshot(quotesQuery, (querySnapshot) => {
-      const quoteData = [];
+      const quoteData: QuoteProps[] = [];
 
       querySnapshot.forEach((quoteDoc) => {
-        quoteData.push({ ...quoteDoc.data(), id: quoteDoc.id });
+        const { author_name, author_pic, quote, likes, timestamp } =
+          quoteDoc.data();
+        quoteData.push({
+          author_name,
+          author_pic,
+          quote,
+          timestamp,
+          likes,
+          id: quoteDoc.id,
+        });
       });
 
       setQuotes(quoteData);
