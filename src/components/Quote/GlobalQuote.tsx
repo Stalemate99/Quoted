@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  DocumentData,
-  collection,
-  getDocs,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import { firestore } from "@/firebase/config";
 import QuoteItem from "./QuoteItem";
