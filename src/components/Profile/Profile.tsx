@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useSignOut } from "react-firebase-hooks/auth";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import { toast } from "react-toastify";
@@ -15,8 +15,9 @@ type ProfileProps = {};
 const Profile: React.FC<ProfileProps> = () => {
   const [isActive, setActive] = useState(false);
   const [signOut] = useSignOut(auth);
-  const router = useRouter();
+  const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
+  const router = useRouter();
   const profileNavItemRef = useRef(null);
 
   const BASE_STYLES =
@@ -63,7 +64,7 @@ const Profile: React.FC<ProfileProps> = () => {
         onClick={() => setActive(!isActive)}
       >
         <img
-          src="./profile_pic.png"
+          src={!!user.photoURL ? user.photoURL : "./profile_pic.png"}
           alt="Default Profile Picture"
           className="rounded-full border-amber-900 border-2 w-14"
         />
