@@ -5,9 +5,11 @@ import { AiFillHeart } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSetRecoilState } from "recoil";
-import { quoteModalState } from "@/atoms/quoteModalAtom";
+import { toast } from "react-toastify";
 
+import { quoteModalState } from "@/atoms/quoteModalAtom";
 import { firestore } from "@/firebase/config";
+import { DEFAULT_TOAST_CONFIG } from "@/utils/toastUtils";
 
 type QuoteItemProps = {
   author_name: string;
@@ -49,7 +51,10 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
         });
       }
     } catch (error) {
-      console.log(error);
+      toast.error(
+        "Error occured while updating. Please try again.",
+        DEFAULT_TOAST_CONFIG
+      );
     }
   };
 
