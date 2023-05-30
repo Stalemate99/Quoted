@@ -2,6 +2,9 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
+import { firestore } from "@/firebase/config";
 
 type QuoteItemProps = {
   author_name: string;
@@ -29,6 +32,21 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
     return time.toDateString();
   };
 
+  const handleLike = async () => {
+    try {
+      const quoteRef = doc(firestore, "quotes", id);
+      const quoteDoc = await getDoc(quoteRef);
+
+      if (quoteDoc.exists()) {
+        const updateLike = await updateDoc(quoteRef, {
+          likes: likes + 1,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <li
       key={id}
@@ -45,7 +63,10 @@ const QuoteItem: React.FC<QuoteItemProps> = ({
           <FaUserCircle className="w-12 h-12" />
         )}
         <span className="flex gap-2 items-center mt-2">
-          <button className="flex items-center text-amber-700 hover:text-pink-400">
+          <button
+            className="flex items-center text-amber-700 hover:text-pink-400"
+            onClick={handleLike}
+          >
             <AiFillHeart className="shadow-xl inline" />
           </button>
           <label className="font-medium text-sm">{likes}</label>
