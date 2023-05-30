@@ -21,7 +21,7 @@ const Profile: React.FC<ProfileProps> = () => {
   const profileNavItemRef = useRef(null);
 
   const BASE_STYLES =
-    "absolute flex top-[120%] left-[-120%] w-32 rounded-lg p-2 bg-amber-800";
+    "absolute flex top-[120%] right-0 w-32 rounded-lg p-2 bg-amber-800";
   const HIDDEN_STYLES = "hidden " + BASE_STYLES;
 
   useEffect(() => {
@@ -64,9 +64,11 @@ const Profile: React.FC<ProfileProps> = () => {
         onClick={() => setActive(!isActive)}
       >
         <img
-          src={!!user.photoURL ? user.photoURL : "./profile_pic.png"}
+          src={!!user?.photoURL ? user.photoURL : "./profile_pic.png"}
           alt="Default Profile Picture"
-          className="rounded-full border-amber-900 border-2 w-14"
+          width={60}
+          height={60}
+          className="rounded-full border-amber-900 border-2 min-w-[2.5rem] sm:w-14 "
         />
         <div
           className={isActive ? BASE_STYLES : HIDDEN_STYLES}
